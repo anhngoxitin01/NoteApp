@@ -79,7 +79,7 @@ class TagActivity : AppCompatActivity() , ItemClickListenerTag {
         //set invisible for list tag
         binding.rvListTag.visibility = View.INVISIBLE
         //create fragment
-        val fragment = TagNotesFragment(application)
+        val fragment = TagNotesFragment(application, this)
         fragment.arguments = bundle
         supportFragmentManager.beginTransaction().replace(R.id.fragment_container_view_tag, fragment).commit()
 

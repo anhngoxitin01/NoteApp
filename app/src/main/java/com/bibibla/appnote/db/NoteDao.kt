@@ -25,7 +25,8 @@ interface NoteDao {
     @Query("SELECT * FROM note WHERE _id = :id")
     suspend fun getNoteFromId(id : Int): Note
 
-    @Query("SELECT * FROM note WHERE _tags LIKE :tag")
-    fun getNotesHadTag(tag: String): LiveData<List<Note>>
+    @Query("SELECT * FROM note WHERE _tags LIKE :tagName")
+    fun getNotesHadTagName(tagName: String): LiveData<List<Note>>
+
 
 }

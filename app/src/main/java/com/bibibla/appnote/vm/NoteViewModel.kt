@@ -21,6 +21,7 @@ class NoteViewModel(private val app : Application): ViewModel() {
 
     val notes = noteRepository.getNotes()
     val notesPin = noteRepository.getNotesPin()
+    var noteHadTag : LiveData<List<Note>>? = null
 
     private val _statusActivity = MutableLiveData<Event<Boolean>>()
     val statusActivity: LiveData<Event<Boolean>>
@@ -57,8 +58,8 @@ class NoteViewModel(private val app : Application): ViewModel() {
         return note.await()
     }
 
-    fun getNotesHadTag(tag: String) : LiveData<List<Note>> {
-        return noteRepository.getNotesHadTag(tag)
+    fun getNotesHadTagName(tagName: String) {
+        noteHadTag = noteRepository.getNotesHadTagName(tagName)
     }
 
 

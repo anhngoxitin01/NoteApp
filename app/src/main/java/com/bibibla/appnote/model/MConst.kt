@@ -1,5 +1,6 @@
 package com.bibibla.appnote.model
 
 object MConst {
-    val MMENU = arrayListOf<String>("Pin", "Delete")
+    val MAIN_MENU = arrayListOf<String>("Pin", "Delete")
+    val TAG_MENU = arrayListOf<String>("Delete")
 }

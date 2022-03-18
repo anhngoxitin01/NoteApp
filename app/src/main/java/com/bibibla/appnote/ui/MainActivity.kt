@@ -136,7 +136,7 @@ class MainActivity :
 
         //create menu builder
         val menuBuilder = AlertDialog.Builder(this)
-        val menuAdapter = ArrayAdapter<String>(this , R.layout.select_dialog_item ,MConst.MMENU)
+        val menuAdapter = ArrayAdapter<String>(this , R.layout.select_dialog_item ,MConst.MAIN_MENU)
         menuBuilder.apply {
             setAdapter(menuAdapter, object : DialogInterface.OnClickListener{
                 override fun onClick(p0: DialogInterface?, p1: Int) {

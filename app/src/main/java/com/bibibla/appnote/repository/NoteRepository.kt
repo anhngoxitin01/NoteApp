@@ -30,8 +30,8 @@ class NoteRepository(private val noteDao : NoteDao) {
         return noteDao.getNotesPin()
     }
 
-    fun getNotesHadTag(tag: String): LiveData<List<Note>>{
-        return noteDao.getNotesHadTag(tag)
+    fun getNotesHadTagName(tagName: String): LiveData<List<Note>>{
+        return noteDao.getNotesHadTagName(tagName)
     }
 
 }
