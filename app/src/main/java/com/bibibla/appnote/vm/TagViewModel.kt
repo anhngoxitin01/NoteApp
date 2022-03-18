@@ -5,6 +5,7 @@ import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.bibibla.appnote.db.TagDatabase
+import com.bibibla.appnote.model.Note
 import com.bibibla.appnote.model.Tag
 import com.bibibla.appnote.repository.TagRepository
 import kotlinx.coroutines.Dispatchers
@@ -99,6 +100,24 @@ class TagViewModel(private val app : Application): ViewModel() {
                 }
             }
         }
+    }
+
+    fun deleteTagByNote(note : Note){
+        if (note.tags != "" || note.tags != null)
+        {
+            var arrTag = note.tags!!.split(",")
+            for(i in arrTag){
+                viewModelScope.launch(Dispatchers.IO) {
+                    Log.d("check", "check tag in deleteTagByNote tag: " + i.trim())
+                    var tag = tagRepository.getTagsFromName(i.trim())
+                    Log.d("check", "check tag in deleteTagByNote tag: " + tag.toString())
+                    tag.amount -= 1
+                    updateOrDeleteTag(tag)
+                }
+            }
+        }
+
+
     }
 
 }

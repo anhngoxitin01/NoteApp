@@ -126,7 +126,7 @@ class MainActivity :
             setPositiveButton("Yes",
                 DialogInterface.OnClickListener{dialogInterface, id ->
                     noteViewModel.deleteNote(note)
-                    //TODO delete tags when note was deleted
+                    tagViewModel.deleteTagByNote(note)
                 })
             setNegativeButton("No",
                 DialogInterface.OnClickListener{dialogInterface, id ->
