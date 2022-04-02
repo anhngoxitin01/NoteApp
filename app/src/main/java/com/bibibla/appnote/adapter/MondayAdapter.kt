@@ -4,21 +4,23 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.bibibla.appnote.databinding.ItemTkbNoteBinding
+import com.bibibla.appnote.databinding.ItemScheduleNoteBinding
 import com.bibibla.appnote.diff.DayDiff
 import com.bibibla.appnote.model.Note
 
 class MondayAdapter : ListAdapter<Note, MondayAdapter.ViewHolder>(DayDiff()) {
-    inner class ViewHolder(private val binding: ItemTkbNoteBinding)
+    inner class ViewHolder(private val binding: ItemScheduleNoteBinding)
         : RecyclerView.ViewHolder(binding.root){
         fun bind(note : Note , position: Int){
-            // TODO show notes here
             binding.tvIndexNote.text = (position + 1).toString()
+            binding.tvTitleNote.text = note.title
+            binding.tvDescriptionNote.text = note.description
+            binding.tvTimeNote.text = note.timeHour.toString() + ":" + note.timeMinute.toString()
         }
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MondayAdapter.ViewHolder {
-        return ViewHolder(ItemTkbNoteBinding.inflate(LayoutInflater.from(parent.context) , parent , false))
+        return ViewHolder(ItemScheduleNoteBinding.inflate(LayoutInflater.from(parent.context) , parent , false))
     }
 
     override fun onBindViewHolder(holder: MondayAdapter.ViewHolder, position: Int) {

@@ -27,7 +27,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".ui.TKBActivity"
+            android:name=".ui.ScheduleActivity"
             android:exported="true"
             android:parentActivityName=".ui.MainActivity">
 

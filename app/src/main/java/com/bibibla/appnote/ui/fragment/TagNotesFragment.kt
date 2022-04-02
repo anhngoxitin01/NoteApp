@@ -27,11 +27,11 @@ import com.bibibla.appnote.vm.NoteViewModel
 import com.bibibla.appnote.vm.NoteViewModelFactory
 import com.bibibla.appnote.vm.TagViewModel
 import com.bibibla.appnote.vm.TagViewModelFactory
+import java.util.*
 
 
 class TagNotesFragment(application: Application, context: Context) : Fragment(), ItemClickListenerNote {
     private lateinit var binding: FragmentTagNotesBinding
-    val contextTagActivity = application.applicationContext
     val mContext = context
 
     private val noteViewModel : NoteViewModel by viewModels(){

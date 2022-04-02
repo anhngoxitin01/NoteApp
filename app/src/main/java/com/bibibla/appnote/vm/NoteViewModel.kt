@@ -1,6 +1,7 @@
 package com.bibibla.appnote.vm
 
 import android.app.Application
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -13,6 +14,7 @@ import kotlinx.coroutines.Deferred
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
+import kotlin.math.log
 
 class NoteViewModel(private val app : Application): ViewModel() {
     private val noteRepository = NoteRepository(
@@ -22,6 +24,7 @@ class NoteViewModel(private val app : Application): ViewModel() {
     val notes = noteRepository.getNotes()
     val notesPin = noteRepository.getNotesPin()
     var noteHadTag : LiveData<List<Note>>? = null
+
 
     private val _statusActivity = MutableLiveData<Event<Boolean>>()
     val statusActivity: LiveData<Event<Boolean>>
@@ -60,6 +63,17 @@ class NoteViewModel(private val app : Application): ViewModel() {
 
     fun getNotesHadTagName(tagName: String) {
         noteHadTag = noteRepository.getNotesHadTagName(tagName)
+    }
+
+    fun getNotesInTime(dayOfMonth:Int , month :Int , year : Int):LiveData<List<Note>>{
+        return noteRepository.getNotesInTime(dayOfMonth, month, year)
+    }
+
+    fun getMutableListNotesArrangeInTime(listNote : List<Note>) : List<Note>{
+        var temp =  listNote.toMutableList()
+            .sortedWith(compareBy<Note>{it.timeHour}.thenBy{it.timeMinute})
+            .sortedBy { it.timeHour == null }
+        return temp
     }
 
 

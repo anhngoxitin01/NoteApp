@@ -92,7 +92,7 @@ class MainActivity :
         binding.dlNote.closeDrawer(GravityCompat.START)
         return when(item.itemId){
             R.id.menu_schedule -> {
-                val intent = Intent(this, TKBActivity::class.java)
+                val intent = Intent(this, ScheduleActivity::class.java)
                 startActivity(intent)
                 true
             }

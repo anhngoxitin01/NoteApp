@@ -34,4 +34,8 @@ class NoteRepository(private val noteDao : NoteDao) {
         return noteDao.getNotesHadTagName(tagName)
     }
 
+    fun getNotesInTime(dayOfMonth:Int , month :Int , year : Int): LiveData<List<Note>>{
+        return noteDao.getNotesInTime(dayOfMonth, month, year)
+    }
+
 }
