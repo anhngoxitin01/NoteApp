@@ -2,14 +2,18 @@ package com.bibibla.appnote.ui
 
 import android.os.Bundle
 import android.util.Log
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import com.bibibla.appnote.adapter.DayPagerAdapter
 import com.bibibla.appnote.databinding.ActivityScheduleBinding
+import com.bibibla.appnote.vm.ScheduleViewModel
+import com.bibibla.appnote.vm.ScheduleViewModelFactory
 import com.google.android.material.tabs.TabLayoutMediator
 import java.util.*
 
 class ScheduleActivity: AppCompatActivity() {
     private lateinit var adapter : DayPagerAdapter
+
     // must fix it
     private var titles = arrayListOf<String>("Thu 2" , "Thu 3", "Thu 4", "Thu 5", "Thu 6", "Thu 7", "Chu Nhat")
 
@@ -23,9 +27,10 @@ class ScheduleActivity: AppCompatActivity() {
         adapter = DayPagerAdapter(this)
         binding.vpDayNote.adapter = adapter
 
-        //get day of today
+        //get day of week
+        val calendar = Calendar.getInstance()
         val dayOfWeek = Calendar.getInstance().get(Calendar.DAY_OF_WEEK)
-        Log.d("check1" , dayOfWeek.toString())
+
         // open this day
         binding.vpDayNote.setCurrentItem(dayOfWeek - 2)
 
