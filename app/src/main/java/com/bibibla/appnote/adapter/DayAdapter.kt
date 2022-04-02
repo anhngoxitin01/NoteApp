@@ -8,7 +8,7 @@ import com.bibibla.appnote.databinding.ItemScheduleNoteBinding
 import com.bibibla.appnote.diff.DayDiff
 import com.bibibla.appnote.model.Note
 
-class MondayAdapter : ListAdapter<Note, MondayAdapter.ViewHolder>(DayDiff()) {
+class DayAdapter : ListAdapter<Note, DayAdapter.ViewHolder>(DayDiff()) {
     inner class ViewHolder(private val binding: ItemScheduleNoteBinding)
         : RecyclerView.ViewHolder(binding.root){
         fun bind(note : Note , position: Int){
@@ -19,11 +19,11 @@ class MondayAdapter : ListAdapter<Note, MondayAdapter.ViewHolder>(DayDiff()) {
         }
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MondayAdapter.ViewHolder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): DayAdapter.ViewHolder {
         return ViewHolder(ItemScheduleNoteBinding.inflate(LayoutInflater.from(parent.context) , parent , false))
     }
 
-    override fun onBindViewHolder(holder: MondayAdapter.ViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: DayAdapter.ViewHolder, position: Int) {
         val noteDay = getItem(position)
         noteDay?.let {
             holder.bind(it , position)

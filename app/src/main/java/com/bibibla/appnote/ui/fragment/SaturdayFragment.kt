@@ -10,15 +10,17 @@ import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bibibla.appnote.R
 import com.bibibla.appnote.adapter.DayAdapter
-import com.bibibla.appnote.databinding.FragmentMondayBinding
+import com.bibibla.appnote.databinding.FragmentFridayBinding
+import com.bibibla.appnote.databinding.FragmentSaturdayBinding
+import com.bibibla.appnote.databinding.FragmentWednesdayBinding
 import com.bibibla.appnote.model.MConst
 import com.bibibla.appnote.vm.ScheduleViewModel
 import com.bibibla.appnote.vm.ScheduleViewModelFactory
 import java.util.*
 
-class MondayFragment(application: Application): Fragment(R.layout.fragment_monday) {
+class SaturdayFragment(application: Application): Fragment(R.layout.fragment_saturday) {
 
-    private lateinit var binding: FragmentMondayBinding
+    private lateinit var binding: FragmentSaturdayBinding
     private lateinit var adapter: DayAdapter
     private val scheduleViewModel : ScheduleViewModel by viewModels(){
         ScheduleViewModelFactory(application)
@@ -29,15 +31,13 @@ class MondayFragment(application: Application): Fragment(R.layout.fragment_monda
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        binding = FragmentMondayBinding.inflate(inflater , container , false)
+        binding = FragmentSaturdayBinding.inflate(inflater , container , false)
 
         //get date 
-        val calendar = scheduleViewModel.getCalender(MConst.MONDAY)
+        val calendar = scheduleViewModel.getCalender(MConst.SATURDAY)
         val dayOfMonth = calendar.get(Calendar.DAY_OF_MONTH)
         val month = calendar.get(Calendar.MONTH)
         val year = calendar.get(Calendar.YEAR)
-
-
 
         // display here
         adapter = DayAdapter()
