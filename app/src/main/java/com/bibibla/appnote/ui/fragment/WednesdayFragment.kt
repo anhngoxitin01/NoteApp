@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bibibla.appnote.R
@@ -20,7 +21,7 @@ class WednesdayFragment(application: Application): Fragment(R.layout.fragment_we
 
     private lateinit var binding: FragmentWednesdayBinding
     private lateinit var adapter: DayAdapter
-    private val scheduleViewModel : ScheduleViewModel by viewModels(){
+    private val scheduleViewModel : ScheduleViewModel by activityViewModels(){
         ScheduleViewModelFactory(application)
     }
 
@@ -31,13 +32,11 @@ class WednesdayFragment(application: Application): Fragment(R.layout.fragment_we
     ): View? {
         binding = FragmentWednesdayBinding.inflate(inflater , container , false)
 
-        //get date 
+        //get date
         val calendar = scheduleViewModel.getCalender(MConst.WEDNESSDAY)
         val dayOfMonth = calendar.get(Calendar.DAY_OF_MONTH)
         val month = calendar.get(Calendar.MONTH)
         val year = calendar.get(Calendar.YEAR)
-
-
 
         // display here
         adapter = DayAdapter()
