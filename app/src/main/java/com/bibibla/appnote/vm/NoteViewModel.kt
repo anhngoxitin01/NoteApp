@@ -65,16 +65,4 @@ class NoteViewModel(private val app : Application): ViewModel() {
         noteHadTag = noteRepository.getNotesHadTagName(tagName)
     }
 
-    fun getNotesInTime(dayOfMonth:Int , month :Int , year : Int):LiveData<List<Note>>{
-        return noteRepository.getNotesInTime(dayOfMonth, month, year)
-    }
-
-    fun getNotesArrangeInTime(listNote : List<Note>) : List<Note>{
-        var temp =  listNote.toMutableList()
-            .sortedWith(compareBy<Note>{it.timeHour}.thenBy{it.timeMinute})
-            .sortedBy { it.timeHour == null }
-        return temp
-    }
-
-
 }

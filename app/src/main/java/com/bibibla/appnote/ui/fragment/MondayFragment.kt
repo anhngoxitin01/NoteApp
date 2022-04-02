@@ -11,16 +11,17 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.bibibla.appnote.R
 import com.bibibla.appnote.adapter.MondayAdapter
 import com.bibibla.appnote.databinding.FragmentMondayBinding
-import com.bibibla.appnote.vm.NoteViewModel
 import com.bibibla.appnote.vm.NoteViewModelFactory
+import com.bibibla.appnote.vm.ScheduleViewModel
+import com.bibibla.appnote.vm.ScheduleViewModelFactory
 import java.util.*
 
 class MondayFragment(application: Application): Fragment(R.layout.fragment_monday) {
 
     private lateinit var binding: FragmentMondayBinding
     private lateinit var adapter: MondayAdapter
-    private val noteViewModel : NoteViewModel by viewModels(){
-        NoteViewModelFactory(application)
+    private val scheduleViewModel : ScheduleViewModel by viewModels(){
+        ScheduleViewModelFactory(application)
     }
 
     override fun onCreateView(
@@ -35,13 +36,11 @@ class MondayFragment(application: Application): Fragment(R.layout.fragment_monda
         val dayOfMonth = calendar.get(Calendar.DAY_OF_MONTH)
         val month = calendar.get(Calendar.MONTH)
         val year = calendar.get(Calendar.YEAR)
-        val hour = calendar.get(Calendar.HOUR_OF_DAY)
-        val minute = calendar.get(Calendar.MINUTE)
 
         // display here
         adapter = MondayAdapter()
-        noteViewModel.getNotesInTime(dayOfMonth, month, year).observe(viewLifecycleOwner ,{
-            adapter.submitList(noteViewModel.getNotesArrangeInTime(it))
+        scheduleViewModel.getNotesInTime(dayOfMonth, month, year).observe(viewLifecycleOwner ,{
+            adapter.submitList(scheduleViewModel.getNotesArrangeInTime(it))
         })
 
         binding.rvMondayNoteItem.adapter = adapter
