@@ -69,7 +69,7 @@ class NoteViewModel(private val app : Application): ViewModel() {
         return noteRepository.getNotesInTime(dayOfMonth, month, year)
     }
 
-    fun getMutableListNotesArrangeInTime(listNote : List<Note>) : List<Note>{
+    fun getNotesArrangeInTime(listNote : List<Note>) : List<Note>{
         var temp =  listNote.toMutableList()
             .sortedWith(compareBy<Note>{it.timeHour}.thenBy{it.timeMinute})
             .sortedBy { it.timeHour == null }

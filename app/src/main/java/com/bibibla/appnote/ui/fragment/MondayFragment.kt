@@ -41,7 +41,7 @@ class MondayFragment(application: Application): Fragment(R.layout.fragment_monda
         // display here
         adapter = MondayAdapter()
         noteViewModel.getNotesInTime(dayOfMonth, month, year).observe(viewLifecycleOwner ,{
-            adapter.submitList(noteViewModel.getMutableListNotesArrangeInTime(it))
+            adapter.submitList(noteViewModel.getNotesArrangeInTime(it))
         })
 
         binding.rvMondayNoteItem.adapter = adapter
