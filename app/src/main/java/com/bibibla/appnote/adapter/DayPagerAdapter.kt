@@ -9,24 +9,24 @@ import androidx.viewpager2.adapter.FragmentViewHolder
 import com.bibibla.appnote.ui.fragment.*
 import java.util.*
 import android.R
-
-
+import android.content.Context
 
 
 class DayPagerAdapter (private val activity: AppCompatActivity) : FragmentStateAdapter(activity) {
     val application = activity.application
+    val activityContext: Context = activity
 
     override fun getItemCount(): Int = 7
 
     override fun createFragment(position: Int): Fragment {
         return when(position){
-            0 -> MondayFragment(application)
-            1 -> TuesdayFragment(application)
-            2 -> WednesdayFragment(application)
-            3 -> ThursdayFragment(application)
-            4 -> FridayFragment(application)
-            5 -> SaturdayFragment(application)
-            6 -> SundayFragment(application)
+            0 -> MondayFragment(application , activityContext)
+            1 -> TuesdayFragment(application, activityContext)
+            2 -> WednesdayFragment(application, activityContext)
+            3 -> ThursdayFragment(application, activityContext)
+            4 -> FridayFragment(application, activityContext)
+            5 -> SaturdayFragment(application, activityContext)
+            6 -> SundayFragment(application, activityContext)
             else ->throw NotImplementedError("Unknown fragment for position : $position")
         }
     }

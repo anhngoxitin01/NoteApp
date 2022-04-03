@@ -7,9 +7,10 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bibibla.appnote.databinding.ItemScheduleNoteBinding
 import com.bibibla.appnote.diff.DayDiff
 import com.bibibla.appnote.model.Note
+import com.bibibla.appnote.util.ItemClickListenerNote
 
-class DayAdapter : ListAdapter<Note, DayAdapter.ViewHolder>(DayDiff()) {
-    inner class ViewHolder(private val binding: ItemScheduleNoteBinding)
+class DayAdapter(private val itemClickListenerNote: ItemClickListenerNote) : ListAdapter<Note, DayAdapter.ViewHolder>(DayDiff()) {
+    inner class ViewHolder(val binding: ItemScheduleNoteBinding)
         : RecyclerView.ViewHolder(binding.root){
         fun bind(note : Note , position: Int){
             binding.tvIndexNote.text = (position + 1).toString()
@@ -27,6 +28,13 @@ class DayAdapter : ListAdapter<Note, DayAdapter.ViewHolder>(DayDiff()) {
         val noteDay = getItem(position)
         noteDay?.let {
             holder.bind(it , position)
+        }
+        holder.binding.root.setOnClickListener{
+            itemClickListenerNote.onItemClickListener(noteDay)
+        }
+        holder.binding.root.setOnLongClickListener {
+            itemClickListenerNote.onItemLongClickListener(position,noteDay)
+            true
         }
     }
 }

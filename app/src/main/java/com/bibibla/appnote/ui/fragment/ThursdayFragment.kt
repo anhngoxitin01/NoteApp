@@ -1,6 +1,8 @@
 package com.bibibla.appnote.ui.fragment
 
 import android.app.Application
+import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -13,11 +15,14 @@ import com.bibibla.appnote.R
 import com.bibibla.appnote.adapter.DayAdapter
 import com.bibibla.appnote.databinding.FragmentThursdayBinding
 import com.bibibla.appnote.model.MConst
+import com.bibibla.appnote.model.Note
+import com.bibibla.appnote.ui.NoteActivity
+import com.bibibla.appnote.util.ItemClickListenerNote
 import com.bibibla.appnote.vm.ScheduleViewModel
 import com.bibibla.appnote.vm.ScheduleViewModelFactory
 import java.util.*
 
-class ThursdayFragment(application: Application): Fragment(R.layout.fragment_thursday) {
+class ThursdayFragment(application: Application,private val activityContext: Context): Fragment(R.layout.fragment_thursday) , ItemClickListenerNote {
 
     private lateinit var binding: FragmentThursdayBinding
     private lateinit var adapter: DayAdapter
@@ -41,7 +46,7 @@ class ThursdayFragment(application: Application): Fragment(R.layout.fragment_thu
 
 
         // display here
-        adapter = DayAdapter()
+        adapter = DayAdapter(this)
         scheduleViewModel.getNotesInTime(dayOfMonth, month, year).observe(viewLifecycleOwner ,{
             if(it != null)
                 adapter.submitList(scheduleViewModel.getNotesArrangeInTime(it))
@@ -53,5 +58,17 @@ class ThursdayFragment(application: Application): Fragment(R.layout.fragment_thu
         binding.rvMondayNoteItem.layoutManager = LinearLayoutManager(context , LinearLayoutManager.VERTICAL , false)
 
         return binding.root
+    }
+
+    override fun onItemClickListener(note: Note) {
+        val intent = Intent( activityContext , NoteActivity::class.java)
+        val bundle = Bundle()
+        bundle.putSerializable("note" , note)
+        intent.putExtras(bundle)
+        startActivity(intent)
+    }
+
+    override fun onItemLongClickListener(position: Int, note: Note) {
+        TODO("Not yet implemented")
     }
 }

@@ -1,6 +1,8 @@
 package com.bibibla.appnote.ui.fragment
 
 import android.app.Application
+import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -13,11 +15,14 @@ import com.bibibla.appnote.R
 import com.bibibla.appnote.adapter.DayAdapter
 import com.bibibla.appnote.databinding.FragmentWednesdayBinding
 import com.bibibla.appnote.model.MConst
+import com.bibibla.appnote.model.Note
+import com.bibibla.appnote.ui.NoteActivity
+import com.bibibla.appnote.util.ItemClickListenerNote
 import com.bibibla.appnote.vm.ScheduleViewModel
 import com.bibibla.appnote.vm.ScheduleViewModelFactory
 import java.util.*
 
-class WednesdayFragment(application: Application): Fragment(R.layout.fragment_wednesday) {
+class WednesdayFragment(application: Application,private val activityContext: Context): Fragment(R.layout.fragment_wednesday) , ItemClickListenerNote {
 
     private lateinit var binding: FragmentWednesdayBinding
     private lateinit var adapter: DayAdapter
@@ -39,7 +44,7 @@ class WednesdayFragment(application: Application): Fragment(R.layout.fragment_we
         val year = calendar.get(Calendar.YEAR)
 
         // display here
-        adapter = DayAdapter()
+        adapter = DayAdapter(this)
         scheduleViewModel.getNotesInTime(dayOfMonth, month, year).observe(viewLifecycleOwner ,{
             if(it != null)
                 adapter.submitList(scheduleViewModel.getNotesArrangeInTime(it))
@@ -51,5 +56,17 @@ class WednesdayFragment(application: Application): Fragment(R.layout.fragment_we
         binding.rvMondayNoteItem.layoutManager = LinearLayoutManager(context , LinearLayoutManager.VERTICAL , false)
 
         return binding.root
+    }
+
+    override fun onItemClickListener(note: Note) {
+        val intent = Intent( activityContext , NoteActivity::class.java)
+        val bundle = Bundle()
+        bundle.putSerializable("note" , note)
+        intent.putExtras(bundle)
+        startActivity(intent)
+    }
+
+    override fun onItemLongClickListener(position: Int, note: Note) {
+        TODO("Not yet implemented")
     }
 }
