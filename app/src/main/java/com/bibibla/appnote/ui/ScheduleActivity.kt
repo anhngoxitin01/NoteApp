@@ -35,9 +35,6 @@ class ScheduleActivity: AppCompatActivity() {
         binding = ActivityScheduleBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        pagerAdapter = DayPagerAdapter(this)
-        binding.vpDayNote.adapter = pagerAdapter
-
         var dayOfWeek = 0
         dayOfWeek = scheduleViewModel.calendar.get(Calendar.DAY_OF_WEEK)
 
@@ -49,14 +46,24 @@ class ScheduleActivity: AppCompatActivity() {
         binding.imgBackWeek.setOnClickListener{
             scheduleViewModel.addDayCalendar(-7)
             binding.tvTimeWeek.text = getStringTimeWeek()
+            //pager adapter
+            pagerAdapter = DayPagerAdapter(this)
+            binding.vpDayNote.adapter = pagerAdapter
         }
 
         binding.imgNextWeek.setOnClickListener{
             scheduleViewModel.addDayCalendar(7)
             binding.tvTimeWeek.text = getStringTimeWeek()
+            //pager adapter
+            pagerAdapter = DayPagerAdapter(this)
+            binding.vpDayNote.adapter = pagerAdapter
         }
 
         binding.tvTimeWeek.text = getStringTimeWeek()
+
+        //pager adapter
+        pagerAdapter = DayPagerAdapter(this)
+        binding.vpDayNote.adapter = pagerAdapter
 
         //create tabLayout
         TabLayoutMediator(binding.tabWeek , binding.vpDayNote) {

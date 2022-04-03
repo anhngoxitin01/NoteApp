@@ -41,7 +41,10 @@ class FridayFragment(application: Application): Fragment(R.layout.fragment_frida
         // display here
         adapter = DayAdapter()
         scheduleViewModel.getNotesInTime(dayOfMonth, month, year).observe(viewLifecycleOwner ,{
-            adapter.submitList(scheduleViewModel.getNotesArrangeInTime(it))
+            if(it != null)
+                adapter.submitList(scheduleViewModel.getNotesArrangeInTime(it))
+            else
+                adapter.submitList(null)
         })
 
         binding.rvMondayNoteItem.adapter = adapter

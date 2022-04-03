@@ -21,7 +21,7 @@ import com.bibibla.appnote.vm.ScheduleViewModelFactory
 import kotlinx.coroutines.launch
 import java.util.*
 
-class MondayFragment(application: Application): Fragment(R.layout.fragment_monday) {
+class MondayFragment(application: Application ): Fragment(R.layout.fragment_monday) {
 
     private lateinit var binding: FragmentMondayBinding
     private lateinit var adapter: DayAdapter
@@ -43,9 +43,12 @@ class MondayFragment(application: Application): Fragment(R.layout.fragment_monda
         val year = calendar.get(Calendar.YEAR)
 
         // display here
-
+        adapter = DayAdapter()
         scheduleViewModel.getNotesInTime(dayOfMonth, month, year).observe(viewLifecycleOwner ,{
-            adapter.submitList(scheduleViewModel.getNotesArrangeInTime(it))
+            if(it != null)
+                adapter.submitList(scheduleViewModel.getNotesArrangeInTime(it))
+            else
+                adapter.submitList(null)
         })
 
         binding.rvMondayNoteItem.adapter = adapter
@@ -53,5 +56,20 @@ class MondayFragment(application: Application): Fragment(R.layout.fragment_monda
 
 
         return binding.root
+    }
+
+    fun updateView(){
+        val calendar = scheduleViewModel.getCalender(MConst.MONDAY)
+        val dayOfMonth = calendar.get(Calendar.DAY_OF_MONTH)
+        val month = calendar.get(Calendar.MONTH)
+        val year = calendar.get(Calendar.YEAR)
+
+        // display here
+        scheduleViewModel.getNotesInTime(dayOfMonth, month, year).observe(viewLifecycleOwner ,{
+            if(it != null)
+                adapter.submitList(scheduleViewModel.getNotesArrangeInTime(it))
+            else
+                adapter.submitList(null)
+        })
     }
 }

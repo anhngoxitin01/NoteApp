@@ -3,10 +3,17 @@ package com.bibibla.appnote.adapter
 import android.app.Application
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
+import androidx.viewpager.widget.PagerAdapter.POSITION_NONE
 import androidx.viewpager2.adapter.FragmentStateAdapter
+import androidx.viewpager2.adapter.FragmentViewHolder
 import com.bibibla.appnote.ui.fragment.*
+import java.util.*
+import android.R
 
-class DayPagerAdapter (private val activity: AppCompatActivity) : FragmentStateAdapter(activity){
+
+
+
+class DayPagerAdapter (private val activity: AppCompatActivity) : FragmentStateAdapter(activity) {
     val application = activity.application
 
     override fun getItemCount(): Int = 7
@@ -23,4 +30,6 @@ class DayPagerAdapter (private val activity: AppCompatActivity) : FragmentStateA
             else ->throw NotImplementedError("Unknown fragment for position : $position")
         }
     }
+
+
 }

@@ -21,19 +21,6 @@ class ScheduleViewModel(private val app : Application): ViewModel() {
 
     var calendar = Calendar.getInstance()
 
-    private var _canUpdate = MutableLiveData<Boolean>()
-
-    init {
-        _canUpdate.value = false
-    }
-
-    fun setCaUpdate(canUpdate : Boolean){
-        _canUpdate.value = canUpdate
-    }
-
-    fun getCanUpdate(): LiveData<Boolean>{
-        return _canUpdate
-    }
 
     fun getNotesInTime(dayOfMonth:Int , month :Int , year : Int): LiveData<List<Note>> {
         return noteRepository.getNotesInTime(dayOfMonth, month, year)
