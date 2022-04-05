@@ -12,11 +12,11 @@
         <activity
             android:name=".ui.NoteActivity"
             android:exported="true"
-            android:parentActivityName=".ui.MainActivity"/>
+            android:parentActivityName=".ui.MainActivity" />
         <activity
             android:name=".ui.TagActivity"
             android:exported="true"
-            android:parentActivityName=".ui.MainActivity"></activity>
+            android:parentActivityName=".ui.MainActivity" />
         <activity
             android:name=".ui.MainActivity"
             android:exported="true">
@@ -30,7 +30,6 @@
             android:name=".ui.ScheduleActivity"
             android:exported="true"
             android:parentActivityName=".ui.MainActivity">
-
         </activity>
     </application>
 

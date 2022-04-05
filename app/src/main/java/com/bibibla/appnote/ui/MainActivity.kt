@@ -32,6 +32,7 @@ class MainActivity :
     private lateinit var binding: ActivityMainBinding
     private lateinit var adapterNote: NoteAdapter
     private lateinit var adapterNotePin: NotePinAdapter
+
     private val noteViewModel : NoteViewModel by viewModels(){
         NoteViewModelFactory(application)
     }

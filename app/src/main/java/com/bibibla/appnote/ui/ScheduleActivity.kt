@@ -26,7 +26,7 @@ class ScheduleActivity: AppCompatActivity() {
     }
 
     // must fix it
-    private var titles = arrayListOf<String>("Thu 2" , "Thu 3", "Thu 4", "Thu 5", "Thu 6", "Thu 7", "Chu Nhat")
+    private var titles = arrayListOf<String>("Mo" , "Tu", "We", "Th", "Fr", "Sa", "Su")
 
     private lateinit var binding: ActivityScheduleBinding
 
@@ -37,9 +37,6 @@ class ScheduleActivity: AppCompatActivity() {
 
         var dayOfWeek = 0
         dayOfWeek = scheduleViewModel.calendar.get(Calendar.DAY_OF_WEEK)
-
-        // open this day
-        binding.vpDayNote.setCurrentItem(dayOfWeek - 2)
 
         val count = 5
 
@@ -65,10 +62,13 @@ class ScheduleActivity: AppCompatActivity() {
         pagerAdapter = DayPagerAdapter(this)
         binding.vpDayNote.adapter = pagerAdapter
 
+        // open this day
+        binding.vpDayNote.setCurrentItem(dayOfWeek - 2)
+
         //create tabLayout
         TabLayoutMediator(binding.tabWeek , binding.vpDayNote) {
                 tab, position ->
-            tab.text = titles[position]
+            tab.text = titles[position] + "   " + scheduleViewModel.getCalender(position + 2).get(Calendar.DAY_OF_MONTH)
         }.attach()
     }
 

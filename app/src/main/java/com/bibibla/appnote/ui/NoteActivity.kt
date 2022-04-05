@@ -14,6 +14,7 @@ import com.bibibla.appnote.vm.TagViewModelFactory
 
 class NoteActivity : AppCompatActivity() {
     private lateinit var binding: ActivityNoteBinding
+
     private val noteViewModel: NoteViewModel by viewModels() {
         NoteViewModelFactory(application)
     }
@@ -41,6 +42,7 @@ class NoteActivity : AppCompatActivity() {
             binding.edtDescription.setText(note.description)
             binding.edtTag.setText(note.tags)
             oldTag = note.tags.toString()
+
             if (note.timeMinute != null) {
                 binding.swChooseTime.isChecked = true
                 binding.tpTimePicker.minute = note.timeMinute!!
@@ -51,6 +53,8 @@ class NoteActivity : AppCompatActivity() {
                 binding.tpDayPicker.updateDate(note.dateYear!!, note.dateMonth!!, note.dateDay!!)
             }
         }
+
+
 
 //        binding.edtDescription.addTextChangedListener(object : TextWatcher {
 //            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {

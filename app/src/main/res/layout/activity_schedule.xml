@@ -9,7 +9,7 @@
         android:id="@+id/tab_week"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
-        android:background="@color/purple_500"
+        android:background="#00CCFF"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
@@ -35,7 +35,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        android:background="#D0D2D5">
+        android:background="@drawable/background_schedule_bottom_icon">
 
         <ImageView
             android:id="@+id/img_backWeek"
@@ -51,7 +51,8 @@
             android:layout_weight="8"
             android:text="13/12/2021 - 20/12/2021"
             android:gravity="center"
-            android:textColor="#2778CA"/>
+            android:textColor="#141A46"
+            android:textStyle="bold"/>
 
         <ImageView
             android:id="@+id/img_nextWeek"
