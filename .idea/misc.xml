@@ -4,6 +4,7 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="..\:/android_studio_workspace/T3H/BaiTapLon/AppNote/app/src/main/res/drawable/background_schedule_bottom_icon.xml" value="0.2791666666666667" />
+        <entry key="..\:/android_studio_workspace/T3H/BaiTapLon/AppNote/app/src/main/res/drawable/background_tag_item.xml" value="0.2791666666666667" />
         <entry key="..\:/android_studio_workspace/T3H/BaiTapLon/AppNote/app/src/main/res/drawable/background_title_pin_note.xml" value="0.1359375" />
         <entry key="..\:/android_studio_workspace/T3H/BaiTapLon/AppNote/app/src/main/res/drawable/ic_menu.xml" value="0.15208333333333332" />
         <entry key="..\:/android_studio_workspace/T3H/BaiTapLon/AppNote/app/src/main/res/drawable/image_24.xml" value="0.15208333333333332" />
@@ -27,7 +28,7 @@
         <entry key="..\:/android_studio_workspace/T3H/BaiTapLon/AppNote/app/src/main/res/layout/item_note.xml" value="0.2630208333333333" />
         <entry key="..\:/android_studio_workspace/T3H/BaiTapLon/AppNote/app/src/main/res/layout/item_pin_note.xml" value="0.2" />
         <entry key="..\:/android_studio_workspace/T3H/BaiTapLon/AppNote/app/src/main/res/layout/item_schedule_note.xml" value="0.536" />
-        <entry key="..\:/android_studio_workspace/T3H/BaiTapLon/AppNote/app/src/main/res/layout/item_tag.xml" value="0.11875" />
+        <entry key="..\:/android_studio_workspace/T3H/BaiTapLon/AppNote/app/src/main/res/layout/item_tag.xml" value="0.4" />
         <entry key="..\:/android_studio_workspace/T3H/BaiTapLon/AppNote/app/src/main/res/layout/item_tkb_note.xml" value="0.2630208333333333" />
         <entry key="..\:/android_studio_workspace/T3H/BaiTapLon/AppNote/app/src/main/res/layout/select_dialog_item.xml" value="0.11979166666666667" />
         <entry key="..\:/android_studio_workspace/T3H/BaiTapLon/AppNote/app/src/main/res/menu/menu_holding_note.xml" value="0.11979166666666667" />

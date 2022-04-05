@@ -35,7 +35,9 @@
                 android:layout_height="match_parent"
                 android:layout_weight="2"
                 android:text="title"
-                android:textColor="#FDC004"/>
+                android:textColor="#FDC004"
+                android:ellipsize="end"
+                android:maxLines="1"/>
             <TextView
                 android:id="@+id/tv_time_note"
                 android:layout_width="0dp"
@@ -43,7 +45,9 @@
                 android:layout_weight="1"
                 android:text="11h"
                 android:textAlignment="textEnd"
-                android:textColor="#FDC004"/>
+                android:textColor="#FDC004"
+                android:ellipsize="end"
+                android:maxLines="1"/>
         </LinearLayout>
 
         <TextView
@@ -53,7 +57,9 @@
             android:layout_height="0dp"
             android:layout_weight="3"
             android:text="description"
-            android:textColor="@color/white"/>
+            android:textColor="@color/white"
+            android:ellipsize="end"
+            android:maxLines="2"/>
     </LinearLayout>
 
 </LinearLayout>
