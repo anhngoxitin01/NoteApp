@@ -11,8 +11,7 @@
         android:theme="@style/Theme.AppNote">
         <activity
             android:name=".ui.NoteActivity"
-            android:exported="true"
-            android:parentActivityName=".ui.MainActivity" />
+            android:exported="true" />
         <activity
             android:name=".ui.TagActivity"
             android:exported="true"

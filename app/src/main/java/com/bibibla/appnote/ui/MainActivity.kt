@@ -68,6 +68,7 @@ class MainActivity :
         //create new note
         binding.btnCreateNote.setOnClickListener {
             val intent = Intent(this , NoteActivity::class.java)
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
             startActivity(intent)
         }
 
