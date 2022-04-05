@@ -12,7 +12,7 @@ import com.bibibla.appnote.model.Tag
 import com.bibibla.appnote.util.ItemClickListenerTag
 
 class TagAdapter(private val itemClickListenerTag: ItemClickListenerTag) : ListAdapter<Tag, TagAdapter.ViewHolder>(TagDiff()), Filterable {
-    var list = mutableListOf<Tag>()
+    private var list = mutableListOf<Tag>()
 
     inner class ViewHolder(val binding: ItemTagBinding) :
         RecyclerView.ViewHolder(binding.root) {
@@ -62,12 +62,9 @@ class TagAdapter(private val itemClickListenerTag: ItemClickListenerTag) : ListA
 
             //tim kiem va them vao danh sach hien thi
             if (p0 == null || p0.isEmpty()) {
-                //TODO fix
                 arrTag.addAll(list)
-//                this@TagAdapter.submitList(list)
-
             } else {
-                for (i in currentList)
+                for (i in list)
                     if (i.name.contains(p0, false))
                         arrTag.add(i)
             }
@@ -78,8 +75,9 @@ class TagAdapter(private val itemClickListenerTag: ItemClickListenerTag) : ListA
             return filterResults
         }
 
-        override fun publishResults(p0: CharSequence?, p1: FilterResults?) {
-            submitList(p1?.values as MutableList<Tag>?)
+        override fun publishResults(p0: CharSequence?, result: FilterResults?) {
+            submitList(result?.values as MutableList<Tag>?)
+
         }
 
     }
