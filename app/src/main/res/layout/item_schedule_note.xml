@@ -1,65 +1,78 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="100dp"
-    android:orientation="horizontal"
-    android:background="@drawable/schedule_item"
-    android:paddingTop="5dp"
-    android:paddingBottom="10dp"
-    android:paddingEnd="10dp"
-    android:paddingStart="10dp">
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <TextView
-        android:id="@+id/tv_index_note"
-        android:layout_width="54dp"
-        android:layout_height="match_parent"
-        android:gravity="center"
-        android:text="index"
-        android:textColor="@color/white"/>
+    <data>
+        <variable
+            name="note"
+            type="com.bibibla.appnote.model.Note" />
+        <variable
+            name="index"
+            type="Integer" />
+    </data>
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:layout_height="100dp"
+        android:orientation="horizontal"
+        android:background="@drawable/schedule_item"
+        android:paddingTop="5dp"
+        android:paddingBottom="10dp"
+        android:paddingEnd="10dp"
+        android:paddingStart="10dp">
+
+        <TextView
+            android:id="@+id/tv_index_note"
+            android:layout_width="54dp"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:text="@{index.toString()}"
+            android:textColor="@color/white" />
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="30dp"
-            android:orientation="horizontal"
-            android:paddingStart="2dp"
-            android:paddingEnd="10dp">
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="30dp"
+                android:orientation="horizontal"
+                android:paddingStart="2dp"
+                android:paddingEnd="10dp">
+
+                <TextView
+                    android:id="@+id/tv_title_note"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="2"
+                    android:text="@{note.title}"
+                    android:textColor="#FDC004"
+                    android:ellipsize="end"
+                    android:maxLines="1" />
+
+                <TextView
+                    android:id="@+id/tv_time_note"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:text="@{note.timeHour.toString() + ':' + note.timeMinute.toString()}"
+                    android:textAlignment="textEnd"
+                    android:textColor="#FDC004"
+                    android:ellipsize="end"
+                    android:maxLines="1" />
+            </LinearLayout>
+
             <TextView
-                android:id="@+id/tv_title_note"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="2"
-                android:text="title"
-                android:textColor="#FDC004"
+                android:padding="5dp"
+                android:id="@+id/tv_description_note"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="3"
+                android:text="@{note.description}"
+                android:textColor="@color/white"
                 android:ellipsize="end"
-                android:maxLines="1"/>
-            <TextView
-                android:id="@+id/tv_time_note"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:text="11h"
-                android:textAlignment="textEnd"
-                android:textColor="#FDC004"
-                android:ellipsize="end"
-                android:maxLines="1"/>
+                android:maxLines="2" />
         </LinearLayout>
 
-        <TextView
-            android:padding="5dp"
-            android:id="@+id/tv_description_note"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="3"
-            android:text="description"
-            android:textColor="@color/white"
-            android:ellipsize="end"
-            android:maxLines="2"/>
     </LinearLayout>
-
-</LinearLayout>
+</layout>

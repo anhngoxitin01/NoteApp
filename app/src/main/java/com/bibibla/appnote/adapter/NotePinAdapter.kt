@@ -15,9 +15,8 @@ class NotePinAdapter(private val itemClickListenerNote: ItemClickListenerNote)
 
     inner class ViewHolder(val binding: ItemPinNoteBinding)
         : RecyclerView.ViewHolder(binding.root){
-            fun bind(note : Note){
-                binding.tvTitle.text = note.title
-                binding.tvDescription.text = note.description
+            fun bind(notePin : Note){
+                binding.notePin = notePin
             }
     }
 

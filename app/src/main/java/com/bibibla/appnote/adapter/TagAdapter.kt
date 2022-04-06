@@ -17,8 +17,7 @@ class TagAdapter(private val itemClickListenerTag: ItemClickListenerTag) : ListA
     inner class ViewHolder(val binding: ItemTagBinding) :
         RecyclerView.ViewHolder(binding.root) {
         fun bind(tag: Tag) {
-            binding.tvNameTag.text = tag.name
-            binding.tvNumberTag.text = tag.amount.toString()
+            binding.tag = tag
         }
     }
 

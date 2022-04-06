@@ -7,6 +7,7 @@ import android.view.MenuItem
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.core.view.GravityCompat
+import androidx.databinding.BindingAdapter
 import com.bibibla.appnote.databinding.ActivityNoteBinding
 import com.bibibla.appnote.model.Note
 import com.bibibla.appnote.vm.NoteViewModel
@@ -55,23 +56,6 @@ class NoteActivity : AppCompatActivity() {
                 binding.tpDayPicker.updateDate(note.dateYear!!, note.dateMonth!!, note.dateDay!!)
             }
         }
-
-
-
-//        binding.edtDescription.addTextChangedListener(object : TextWatcher {
-//            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-//
-//            }
-//
-//            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-//
-//            }
-//
-//            override fun afterTextChanged(editable: Editable?) {
-//
-//            }
-//
-//        })
 
         binding.btnSave.setOnClickListener {
             //get information from form
@@ -159,4 +143,5 @@ class NoteActivity : AppCompatActivity() {
         // tao tag moi
         tagViewModel.checkTagToAddFromList(newTags)
     }
+
 }

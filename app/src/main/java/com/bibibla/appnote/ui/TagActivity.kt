@@ -30,10 +30,6 @@ class TagActivity : AppCompatActivity() , ItemClickListenerTag {
         TagViewModelFactory(application)
     }
 
-    private val noteViewModel : NoteViewModel by viewModels(){
-        NoteViewModelFactory(application)
-    }
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityTagBinding.inflate(layoutInflater)

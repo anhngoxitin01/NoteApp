@@ -13,10 +13,8 @@ class DayAdapter(private val itemClickListenerNote: ItemClickListenerNote) : Lis
     inner class ViewHolder(val binding: ItemScheduleNoteBinding)
         : RecyclerView.ViewHolder(binding.root){
         fun bind(note : Note , position: Int){
-            binding.tvIndexNote.text = (position + 1).toString()
-            binding.tvTitleNote.text = note.title
-            binding.tvDescriptionNote.text = note.description
-            binding.tvTimeNote.text = note.timeHour.toString() + ":" + note.timeMinute.toString()
+            binding.note = note
+            binding.index = (position + 1)
         }
     }
 

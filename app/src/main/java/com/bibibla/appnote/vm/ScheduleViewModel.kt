@@ -8,6 +8,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.bibibla.appnote.db.NoteDatabase
+import com.bibibla.appnote.model.MConst
 import com.bibibla.appnote.model.Note
 import com.bibibla.appnote.repository.NoteRepository
 import kotlinx.coroutines.Dispatchers
@@ -51,5 +52,27 @@ class ScheduleViewModel(private val app : Application): ViewModel() {
 
     fun addDayCalendar(days :Int){
         calendar.add(Calendar.DAY_OF_YEAR , days)
+    }
+
+    fun getStringTimeWeek() : String {
+        val tempCalendar : Calendar = this.calendar.clone() as Calendar
+        var tempStringTimeWeek = ""
+        val dayOfWeek = this.calendar.get(Calendar.DAY_OF_WEEK)
+
+
+        tempCalendar.add(Calendar.DAY_OF_YEAR, MConst.MONDAY - dayOfWeek )
+
+        tempStringTimeWeek += tempCalendar.get(Calendar.DAY_OF_MONTH)
+        tempStringTimeWeek += "/"
+        tempStringTimeWeek += tempCalendar.get(Calendar.MONTH) + 1
+        tempStringTimeWeek += "    -    "
+        tempCalendar.add(Calendar.DAY_OF_YEAR , 6 )
+        tempStringTimeWeek += tempCalendar.get(Calendar.DAY_OF_MONTH)
+        tempStringTimeWeek += "/"
+        tempStringTimeWeek += tempCalendar.get(Calendar.MONTH) + 1
+
+        tempCalendar.add(Calendar.DAY_OF_YEAR, MConst.SUNDAY - dayOfWeek )
+
+        return tempStringTimeWeek
     }
 }

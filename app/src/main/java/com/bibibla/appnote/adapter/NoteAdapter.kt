@@ -8,16 +8,15 @@ import com.bibibla.appnote.databinding.ItemNoteBinding
 import com.bibibla.appnote.diff.NoteDiff
 import com.bibibla.appnote.model.Note
 import com.bibibla.appnote.util.ItemClickListenerNote
+import com.bibibla.appnote.vm.NoteViewModel
 
 class NoteAdapter(private val itemClickListenerNote: ItemClickListenerNote)
     : ListAdapter<Note, NoteAdapter.ViewHolder>(NoteDiff()){
 
-
     inner class ViewHolder(val binding: ItemNoteBinding)
         : RecyclerView.ViewHolder(binding.root){
             fun bind(note : Note){
-                binding.tvTitle.text = note.title
-                binding.tvDescription.text = note.description
+                binding.note = note
             }
     }
 
