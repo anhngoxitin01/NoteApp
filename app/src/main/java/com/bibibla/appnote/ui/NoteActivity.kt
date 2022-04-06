@@ -120,6 +120,7 @@ class NoteActivity : AppCompatActivity() {
                 }
                 else -> Toast.makeText(this, "Error", Toast.LENGTH_SHORT).show()
             }
+            finish()
         }
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
     }

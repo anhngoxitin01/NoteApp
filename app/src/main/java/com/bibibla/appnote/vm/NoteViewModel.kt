@@ -35,7 +35,6 @@ class NoteViewModel(private val app : Application): ViewModel() {
         viewModelScope.launch(Dispatchers.IO) {
             noteRepository.insertNote(note)
         }
-
     }
 
     fun deleteNote(note : Note){

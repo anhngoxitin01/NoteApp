@@ -64,6 +64,8 @@ class TagNotesFragment(application: Application, context: Context) : Fragment(),
         binding.rvNotes.adapter = adapter
         binding.rvNotes.layoutManager =  GridLayoutManager(mContext , 2 , GridLayoutManager.VERTICAL , false)
 
+
+
         return binding.root
     }
 
@@ -72,6 +74,7 @@ class TagNotesFragment(application: Application, context: Context) : Fragment(),
         val bundle = Bundle()
         bundle.putSerializable("note" , note)
         intent.putExtras(bundle)
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
         startActivity(intent)
     }
 
@@ -123,6 +126,5 @@ class TagNotesFragment(application: Application, context: Context) : Fragment(),
         menuDialog.show()
         Log.d("check" , "running dialog")
     }
-
 
 }

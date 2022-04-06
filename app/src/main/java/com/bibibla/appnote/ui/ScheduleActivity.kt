@@ -4,7 +4,6 @@ import android.os.Bundle
 import android.util.Log
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
-import androidx.databinding.BindingAdapter
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.viewModelScope
 import com.bibibla.appnote.R
@@ -38,21 +37,19 @@ class ScheduleActivity: AppCompatActivity() {
 
         binding.imgBackWeek.setOnClickListener{
             scheduleViewModel.addDayCalendar(-7)
-            binding.tvTimeWeek.text = scheduleViewModel.getStringTimeWeek()
             updateUI()
         }
 
         binding.imgNextWeek.setOnClickListener{
             scheduleViewModel.addDayCalendar(7)
-            binding.tvTimeWeek.text = scheduleViewModel.getStringTimeWeek()
             updateUI()
         }
-
-        binding.tvTimeWeek.text = scheduleViewModel.getStringTimeWeek()
         updateUI()
     }
 
     private fun updateUI() {
+        binding.tvTimeWeek.text = scheduleViewModel.getStringTimeWeek()
+
         //pager adapter
         pagerAdapter = DayPagerAdapter(this)
         binding.vpDayNote.adapter = pagerAdapter

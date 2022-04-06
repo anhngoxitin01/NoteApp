@@ -63,6 +63,7 @@ class TuesdayFragment(application: Application,private val activityContext: Cont
         val bundle = Bundle()
         bundle.putSerializable("note" , note)
         intent.putExtras(bundle)
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
         startActivity(intent)
     }
 

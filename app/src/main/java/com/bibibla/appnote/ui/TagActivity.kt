@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.Menu
+import android.view.MenuItem
 import android.view.View
 import android.widget.Filter
 import android.widget.Filter.FilterListener
@@ -24,6 +25,7 @@ import com.bibibla.appnote.vm.TagViewModelFactory
 class TagActivity : AppCompatActivity() , ItemClickListenerTag {
     private lateinit var binding: ActivityTagBinding
     private lateinit var tagAdapter: TagAdapter
+    private var searchView : SearchView? = null
 
 
     private val tagViewModel : TagViewModel by viewModels(){
@@ -51,12 +53,12 @@ class TagActivity : AppCompatActivity() , ItemClickListenerTag {
         menuInflater.inflate(R.menu.menu_tag, menu)
 
         val search = menu?.findItem(R.id.nav_tag_search)
-        val searchView = search?.actionView as SearchView
-        searchView.queryHint = "Search something"
+        searchView = search?.actionView as SearchView?
+        searchView?.queryHint = "Search something"
 
-        searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener{
+        searchView?.setOnQueryTextListener(object : SearchView.OnQueryTextListener{
             override fun onQueryTextSubmit(textFind: String?): Boolean {
-                searchView.clearFocus()
+                searchView?.clearFocus()
                 return false
             }
 
@@ -74,16 +76,36 @@ class TagActivity : AppCompatActivity() , ItemClickListenerTag {
         //create bundel
         val bundle = Bundle()
         bundle.putSerializable("tag" , tag)
-        //set invisible for list tag
-        binding.rvListTag.visibility = View.INVISIBLE
+        //set invisible for list tag and searchView
+        binding.rvListTag.visibility = View.GONE
+        searchView?.visibility = View.GONE
         //create fragment
         val fragment = TagNotesFragment(application, this)
         fragment.arguments = bundle
-        supportFragmentManager.beginTransaction().replace(R.id.fragment_container_view_tag, fragment).commit()
-
+        supportFragmentManager.beginTransaction()
+            .replace(R.id.fragment_container_view_tag, fragment)
+            .commit()
     }
 
     override fun onItemLongClickListener(position: Int, tag: Tag) {
         TODO("Not yet implemented")
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        if (item.getItemId() == android.R.id.home) {
+            if (supportFragmentManager.fragments.size == 0)
+                finish()
+            else {
+                //remove all fragment
+                for (fragment in supportFragmentManager.fragments) {
+                    supportFragmentManager.beginTransaction().remove(fragment).commit()
+                }
+                //set invisible for list tag and searchView
+                binding.rvListTag.visibility = View.VISIBLE
+                searchView?.visibility = View.VISIBLE
+            }
+            return true
+        }
+        return super.onOptionsItemSelected(item)
     }
 }
