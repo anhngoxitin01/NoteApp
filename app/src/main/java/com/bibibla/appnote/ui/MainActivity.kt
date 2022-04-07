@@ -1,15 +1,21 @@
 package com.bibibla.appnote.ui
 
+import android.Manifest
 import android.app.AlertDialog
+import android.content.ComponentName
 import android.content.DialogInterface
 import android.content.Intent
+import android.content.ServiceConnection
+import android.content.pm.PackageManager
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.os.IBinder
 import android.util.Log
 import android.view.MenuItem
 import android.widget.ArrayAdapter
 import android.widget.Toast
 import androidx.activity.viewModels
+import androidx.core.app.ActivityCompat
 import androidx.core.view.GravityCompat
 import androidx.recyclerview.widget.GridLayoutManager
 import com.bibibla.appnote.R
@@ -18,6 +24,7 @@ import com.bibibla.appnote.adapter.NotePinAdapter
 import com.bibibla.appnote.databinding.ActivityMainBinding
 import com.bibibla.appnote.model.MConst
 import com.bibibla.appnote.model.Note
+import com.bibibla.appnote.service.MyService
 import com.bibibla.appnote.util.ItemClickListenerNote
 import com.bibibla.appnote.vm.NoteViewModel
 import com.bibibla.appnote.vm.NoteViewModelFactory
@@ -32,6 +39,7 @@ class MainActivity :
     private lateinit var binding: ActivityMainBinding
     private lateinit var adapterNote: NoteAdapter
     private lateinit var adapterNotePin: NotePinAdapter
+    private lateinit var myService: MyService
 
     private val noteViewModel : NoteViewModel by viewModels(){
         NoteViewModelFactory(application)
@@ -46,13 +54,16 @@ class MainActivity :
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        //start Service
+        startMyService()
+
+        //update ui
         adapterNote = NoteAdapter(this)
         noteViewModel.notes.observe(this, {
             adapterNote.submitList(it.reversed())
         })
         binding.rvNotes.adapter = adapterNote
         binding.rvNotes.layoutManager = GridLayoutManager(this , 2 , GridLayoutManager.VERTICAL , false)
-
 
         adapterNotePin = NotePinAdapter(this)
         noteViewModel.notesPin.observe(this , {
@@ -67,6 +78,7 @@ class MainActivity :
 
         //create new note
         binding.btnCreateNote.setOnClickListener {
+            myService.pushNotification()
             val intent = Intent(this , NoteActivity::class.java)
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
             startActivity(intent)
@@ -74,6 +86,28 @@ class MainActivity :
 
         //set nav listener
         binding.navMusic.setNavigationItemSelectedListener(this)
+    }
+
+    private fun startMyService() {
+        val intent = Intent(this , MyService::class.java)
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+            startForegroundService(intent)
+        } else {
+            startService(intent)
+        }
+
+        bindService(intent , connection , BIND_AUTO_CREATE)
+    }
+
+    private val connection = object : ServiceConnection {
+        override fun onServiceConnected(name: ComponentName?, service: IBinder?) {
+            val binder : MyService.MyBinder = service as MyService.MyBinder
+            myService = binder.getMyService()
+        }
+
+        override fun onServiceDisconnected(name: ComponentName?) {
+            Log.d("check" ,"disconnect to the service")
+        }
 
     }
 

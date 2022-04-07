@@ -3,7 +3,7 @@ package com.bibibla.appnote.model
 object MConst {
     val MAIN_MENU = arrayListOf<String>("Pin", "Delete")
     val TAG_MENU = arrayListOf<String>("Delete")
-    val NOTIFICATION_CUSTOM = "test.NotificationReceiver"
+    val INTENT_NOTIFICATION_CUSTOM = "test.NotificationReceiver"
     val FLAG_INTENT_FROM_MAIN_ACTIVITY = "flag intent from main activity"
     val MONDAY = 2
     val TUESDAY = 3
