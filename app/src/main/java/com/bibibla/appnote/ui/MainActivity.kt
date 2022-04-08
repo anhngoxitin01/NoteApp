@@ -72,7 +72,7 @@ class MainActivity :
         supportActionBar?.setHomeAsUpIndicator(R.drawable.ic_menu)
 
         //create new note
-        binding.btnCreateNote.setOnClickListener {
+        binding.fbtCreateNote.setOnClickListener {
             val intent = Intent(this , NoteActivity::class.java)
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
             startActivity(intent)
