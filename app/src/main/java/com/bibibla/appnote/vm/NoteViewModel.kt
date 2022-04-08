@@ -64,7 +64,7 @@ class NoteViewModel(private val app : Application): ViewModel() {
         if(timeNote.after(timeNow))
         {
 //            Log.d("check" , "the time of note is after calendar")
-            secondInMills = timeNote.time - ( timeNow.time + calendar.get(Calendar.MILLISECOND))
+            secondInMills = timeNote.time - ( timeNow.time + calendar.get(Calendar.SECOND) * 1000)
         }
 
 //        Log.d("check" , note.toString())
