@@ -7,6 +7,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.MenuItem
+import android.view.View
 import android.widget.Toast
 import androidx.activity.viewModels
 import com.bibibla.appnote.databinding.ActivityNoteBinding
@@ -17,6 +18,10 @@ import com.bibibla.appnote.vm.TagViewModel
 import com.bibibla.appnote.vm.TagViewModelFactory
 import com.bibibla.appnote.broadcast.NotificationReceiver
 import com.bibibla.appnote.model.MConst
+import android.widget.CompoundButton
+
+
+
 
 
 class NoteActivity : AppCompatActivity() {
@@ -57,18 +62,34 @@ class NoteActivity : AppCompatActivity() {
                 binding.swAlert.isChecked = true
                 //update value for oldStatusAlertNote
                 oldStatusAlertNote = true
+                //visible for ll
+                binding.llDay.visibility = View.VISIBLE
+                binding.llTime.visibility = View.VISIBLE
 
-                if (note.timeMinute != null) {
-                    binding.swChooseTime.isChecked = true
                     binding.tpTimePicker.minute = note.timeMinute!!
                     binding.tpTimePicker.hour = note.timeHour!!
-                }
-                if (note.dateDay != null) {
-                    binding.swChooseDay.isChecked = true
+
                     binding.tpDayPicker.updateDate(note.dateYear!!, note.dateMonth!!, note.dateDay!!)
-                }
+
+            } else {
+                binding.llDay.visibility = View.INVISIBLE
+                binding.llTime.visibility = View.INVISIBLE
             }
         }
+
+        binding.swAlert.setOnCheckedChangeListener(CompoundButton.OnCheckedChangeListener { buttonView, isChecked ->
+            // do something, the isChecked will be
+            // true if the switch is in the On position
+            if(isChecked)
+            {
+                binding.llTime.visibility = View.VISIBLE
+                binding.llDay.visibility = View.VISIBLE
+            } else {
+                binding.llTime.visibility = View.INVISIBLE
+                binding.llDay.visibility = View.INVISIBLE
+            }
+
+        })
 
         binding.btnSave.setOnClickListener {
             //get information from form
@@ -82,11 +103,9 @@ class NoteActivity : AppCompatActivity() {
             val tags: String? = binding.edtTag.text.toString()
             val isSettingAlarm : Boolean = binding.swAlert.isChecked
 
-            if (binding.swChooseTime.isChecked) {
+            if (binding.swAlert.isChecked) {
                 timeMinute = binding.tpTimePicker.minute
                 timeHour = binding.tpTimePicker.hour
-            }
-            if (binding.swChooseDay.isChecked) {
                 dateDay = binding.tpDayPicker.dayOfMonth
                 dateMonth = binding.tpDayPicker.month + 1
                 dateYear = binding.tpDayPicker.year
