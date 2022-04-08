@@ -225,22 +225,25 @@ class MainActivity :
     }
 
     private fun cancelNotification(note: Note) {
-        Log.d("check" , "running cancel notification")
-        Log.d("check" ,"note : ${note.toString()}")
+        if(note.isSettingAlarm)
+        {
+            Log.d("check" , "running cancel notification")
+            Log.d("check" ,"note : ${note.toString()}")
 
-        //create and send intent for broadcast
-        val intent = Intent(this , NotificationReceiver::class.java)
-        intent.setAction(MConst.NOTIFICATION_CUSTOM)
-        intent.putExtra("title" , note.title.toString())
-        intent.putExtra("description" , note.description.toString())
-        intent.putExtra("id" , note.id)
+            //create and send intent for broadcast
+            val intent = Intent(this , NotificationReceiver::class.java)
+            intent.setAction(MConst.NOTIFICATION_CUSTOM)
+            intent.putExtra("title" , note.title.toString())
+            intent.putExtra("description" , note.description.toString())
+            intent.putExtra("id" , note.id)
 
-        //create pending intent
-        val pendingIntent = PendingIntent.getBroadcast(this ,note.id , intent , PendingIntent.FLAG_UPDATE_CURRENT )
-        // create alarm to notification in broadcast after time
-        val am = getSystemService(ALARM_SERVICE) as AlarmManager
-        //delete the notification
-        am.cancel(pendingIntent)
+            //create pending intent
+            val pendingIntent = PendingIntent.getBroadcast(this ,note.id , intent , PendingIntent.FLAG_UPDATE_CURRENT )
+            // create alarm to notification in broadcast after time
+            val am = getSystemService(ALARM_SERVICE) as AlarmManager
+            //delete the notification
+            am.cancel(pendingIntent)
+        }
     }
 
 
