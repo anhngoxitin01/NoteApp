@@ -30,6 +30,12 @@
             android:exported="true"
             android:parentActivityName=".ui.MainActivity">
         </activity>
+
+        <receiver android:name=".broadcast.NotificationReceiver"  android:exported="true">
+            <intent-filter>
+                <action android:name="test.NotificationReceiver"/>
+            </intent-filter>
+        </receiver>
     </application>
 
 </manifest>

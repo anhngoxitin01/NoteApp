@@ -43,7 +43,7 @@ class SundayFragment(application: Application,private val activityContext: Conte
         //get date
         val calendar = scheduleViewModel.getCalender(MConst.SUNDAY)
         val dayOfMonth = calendar.get(Calendar.DAY_OF_MONTH)
-        val month = calendar.get(Calendar.MONTH)
+        val month = calendar.get(Calendar.MONTH) + 1
         val year = calendar.get(Calendar.YEAR)
 
 

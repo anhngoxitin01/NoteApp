@@ -40,7 +40,7 @@ class WednesdayFragment(application: Application,private val activityContext: Co
         //get date
         val calendar = scheduleViewModel.getCalender(MConst.WEDNESSDAY)
         val dayOfMonth = calendar.get(Calendar.DAY_OF_MONTH)
-        val month = calendar.get(Calendar.MONTH)
+        val month = calendar.get(Calendar.MONTH) + 1
         val year = calendar.get(Calendar.YEAR)
 
         // display here

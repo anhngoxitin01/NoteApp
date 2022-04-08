@@ -31,5 +31,8 @@ interface NoteDao {
     @Query("SELECT * FROM note WHERE _dateDay = :dayOfMonth AND _dateMonth = :month AND _dateYear = :year")
     fun getNotesInTime(dayOfMonth:Int , month :Int , year : Int): LiveData<List<Note>>
 
+    @Query("SELECT * FROM note WHERE _isSettingAlarm = :isSettingAlarm")
+    fun getNotesAlert(isSettingAlarm:Boolean): LiveData<List<Note>>
+
 
 }

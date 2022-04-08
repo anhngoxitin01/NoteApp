@@ -27,5 +27,7 @@ data class Note(
     @ColumnInfo(name = "_dateYear")
     var dateYear: Int? = null,
     @ColumnInfo(name = "_tags")
-    var tags : String? = null
+    var tags : String? = null,
+    @ColumnInfo(name = "_isSettingAlarm")
+    var isSettingAlarm : Boolean = false
 ) : Serializable

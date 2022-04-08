@@ -110,9 +110,11 @@ class TagViewModel(private val app : Application): ViewModel() {
                 viewModelScope.launch(Dispatchers.IO) {
                     Log.d("check", "check tag in deleteTagByNote tag: " + i.trim())
                     var tag = tagRepository.getTagsFromName(i.trim())
-                    Log.d("check", "check tag in deleteTagByNote tag: " + tag.toString())
-                    tag.amount -= 1
-                    updateOrDeleteTag(tag)
+                    if(tag != null){
+                        Log.d("check", "check tag in deleteTagByNote tag: $tag")
+                        tag.amount -= 1
+                        updateOrDeleteTag(tag)
+                    }
                 }
             }
         }

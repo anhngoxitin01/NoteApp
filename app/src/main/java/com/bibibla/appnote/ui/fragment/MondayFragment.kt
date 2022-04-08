@@ -45,7 +45,7 @@ class MondayFragment(application: Application ,private val activityContext: Cont
         //get date
         val calendar = scheduleViewModel.getCalender(MConst.MONDAY)
         val dayOfMonth = calendar.get(Calendar.DAY_OF_MONTH)
-        val month = calendar.get(Calendar.MONTH)
+        val month = calendar.get(Calendar.MONTH) + 1
         val year = calendar.get(Calendar.YEAR)
 
         // display here
@@ -62,21 +62,6 @@ class MondayFragment(application: Application ,private val activityContext: Cont
 
 
         return binding.root
-    }
-
-    fun updateView(){
-        val calendar = scheduleViewModel.getCalender(MConst.MONDAY)
-        val dayOfMonth = calendar.get(Calendar.DAY_OF_MONTH)
-        val month = calendar.get(Calendar.MONTH)
-        val year = calendar.get(Calendar.YEAR)
-
-        // display here
-        scheduleViewModel.getNotesInTime(dayOfMonth, month, year).observe(viewLifecycleOwner ,{
-            if(it != null)
-                adapter.submitList(scheduleViewModel.getNotesArrangeInTime(it))
-            else
-                adapter.submitList(null)
-        })
     }
 
     override fun onItemClickListener(note: Note) {

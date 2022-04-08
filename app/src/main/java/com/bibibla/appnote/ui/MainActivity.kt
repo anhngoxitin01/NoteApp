@@ -1,8 +1,11 @@
 package com.bibibla.appnote.ui
 
+import android.app.AlarmManager
 import android.app.AlertDialog
+import android.app.PendingIntent
 import android.content.DialogInterface
 import android.content.Intent
+import android.content.IntentFilter
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
@@ -11,10 +14,12 @@ import android.widget.ArrayAdapter
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.core.view.GravityCompat
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.GridLayoutManager
 import com.bibibla.appnote.R
 import com.bibibla.appnote.adapter.NoteAdapter
 import com.bibibla.appnote.adapter.NotePinAdapter
+import com.bibibla.appnote.broadcast.NotificationReceiver
 import com.bibibla.appnote.databinding.ActivityMainBinding
 import com.bibibla.appnote.model.MConst
 import com.bibibla.appnote.model.Note
@@ -32,6 +37,7 @@ class MainActivity :
     private lateinit var binding: ActivityMainBinding
     private lateinit var adapterNote: NoteAdapter
     private lateinit var adapterNotePin: NotePinAdapter
+    private val mNotificationReceiver : NotificationReceiver = NotificationReceiver()
 
     private val noteViewModel : NoteViewModel by viewModels(){
         NoteViewModelFactory(application)
@@ -75,6 +81,55 @@ class MainActivity :
         //set nav listener
         binding.navMusic.setNavigationItemSelectedListener(this)
 
+        //sending all intent to notification in broadcastReceiver
+//        sendingIntentToBroadcastReceiver()
+
+    }
+
+    private fun sendingIntentToBroadcastReceiver() {
+        Log.d("check" ,"sending broadcast")
+
+        //get all value data
+        noteViewModel.getNotesAlert(true)
+        noteViewModel.noteAreAlarm?.observe(this ,{
+            for (note in it)
+            {
+                val secondInMills = noteViewModel.caculTimeToNotification(note)
+                Log.d("check" , secondInMills.toString())
+
+                //not send to alarm if the alarm note is the pass
+                if(secondInMills >= 0)
+                {
+                    Log.d("check" ,"note : ${note.toString()}")
+                    //create and send intent for broadcast
+                    val intent = Intent(this , NotificationReceiver::class.java)
+                    intent.setAction(MConst.NOTIFICATION_CUSTOM)
+                    intent.putExtra("title" , note.title.toString())
+                    intent.putExtra("description" , note.description.toString())
+                    intent.putExtra("id" , note.id)
+//                sendBroadcast(intent)
+
+                    val pendingIntent = PendingIntent.getBroadcast(this ,note.id , intent , PendingIntent.FLAG_UPDATE_CURRENT )
+
+
+                    val am = getSystemService(ALARM_SERVICE) as AlarmManager
+
+                    am.set(AlarmManager.RTC_WAKEUP, System.currentTimeMillis() + secondInMills , pendingIntent)
+//                am.cancel(pendingIntent)
+                }
+            }
+        })
+    }
+
+    override fun onStart() {
+        super.onStart()
+        val mNotificationIntentFilter = IntentFilter(MConst.NOTIFICATION_CUSTOM)
+        registerReceiver(mNotificationReceiver , mNotificationIntentFilter)
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        unregisterReceiver(mNotificationReceiver)
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
@@ -129,6 +184,7 @@ class MainActivity :
                 DialogInterface.OnClickListener{dialogInterface, id ->
                     noteViewModel.deleteNote(note)
                     tagViewModel.deleteTagByNote(note)
+                    cancelNotification(note)
                 })
             setNegativeButton("No",
                 DialogInterface.OnClickListener{dialogInterface, id ->
@@ -166,6 +222,25 @@ class MainActivity :
         val menuDialog = menuBuilder.create()
         menuDialog.show()
         Log.d("check" , "running dialog")
+    }
+
+    private fun cancelNotification(note: Note) {
+        Log.d("check" , "running cancel notification")
+        Log.d("check" ,"note : ${note.toString()}")
+
+        //create and send intent for broadcast
+        val intent = Intent(this , NotificationReceiver::class.java)
+        intent.setAction(MConst.NOTIFICATION_CUSTOM)
+        intent.putExtra("title" , note.title.toString())
+        intent.putExtra("description" , note.description.toString())
+        intent.putExtra("id" , note.id)
+
+        //create pending intent
+        val pendingIntent = PendingIntent.getBroadcast(this ,note.id , intent , PendingIntent.FLAG_UPDATE_CURRENT )
+        // create alarm to notification in broadcast after time
+        val am = getSystemService(ALARM_SERVICE) as AlarmManager
+        //delete the notification
+        am.cancel(pendingIntent)
     }
 
 

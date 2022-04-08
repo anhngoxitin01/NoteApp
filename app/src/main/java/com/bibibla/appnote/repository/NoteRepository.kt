@@ -38,4 +38,8 @@ class NoteRepository(private val noteDao : NoteDao) {
         return noteDao.getNotesInTime(dayOfMonth, month, year)
     }
 
+    fun getNotesAlert(isSettingAlarm:Boolean): LiveData<List<Note>>{
+        return noteDao.getNotesAlert(isSettingAlarm)
+    }
+
 }

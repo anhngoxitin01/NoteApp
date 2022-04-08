@@ -40,7 +40,7 @@ class FridayFragment(application: Application ,private val activityContext: Cont
         //get date
         val calendar = scheduleViewModel.getCalender(MConst.FRIDAY)
         val dayOfMonth = calendar.get(Calendar.DAY_OF_MONTH)
-        val month = calendar.get(Calendar.MONTH)
+        val month = calendar.get(Calendar.MONTH) + 1
         val year = calendar.get(Calendar.YEAR)
 
         // display here
