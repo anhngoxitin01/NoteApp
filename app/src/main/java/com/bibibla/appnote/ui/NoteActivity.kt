@@ -19,9 +19,7 @@ import com.bibibla.appnote.vm.TagViewModelFactory
 import com.bibibla.appnote.broadcast.NotificationReceiver
 import com.bibibla.appnote.model.MConst
 import android.widget.CompoundButton
-
-
-
+import java.util.*
 
 
 class NoteActivity : AppCompatActivity() {
@@ -30,14 +28,15 @@ class NoteActivity : AppCompatActivity() {
     private val noteViewModel: NoteViewModel by viewModels() {
         NoteViewModelFactory(application)
     }
-    private val tagViewModel : TagViewModel by viewModels(){
+    private val tagViewModel: TagViewModel by viewModels() {
         TagViewModelFactory(application)
     }
     private lateinit var note: Note
 
     var oldTag: String? = null
+
     // this value to save the old value of note to check for cancel notification
-    var oldStatusAlertNote : Boolean = false
+    var oldStatusAlertNote: Boolean = false
 
     // 0 is create 1 is update
     var status: Int = 0
@@ -47,41 +46,47 @@ class NoteActivity : AppCompatActivity() {
         binding = ActivityNoteBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+
         //check status Activity
         val intent = intent.getSerializableExtra("note")
         if (intent != null) {
+            //status update note
             status = 1
             note = intent as Note
-            binding.edtTitle.setText(note.title)
-            binding.edtDescription.setText(note.description)
-            binding.edtTag.setText(note.tags)
-            oldTag = note.tags.toString()
-
-            if(note.isSettingAlarm)
-            {
-                binding.swAlert.isChecked = true
+            binding.note = note
+            if (note.isSettingAlarm) {
                 //update value for oldStatusAlertNote
                 oldStatusAlertNote = true
                 //visible for ll
                 binding.llDay.visibility = View.VISIBLE
                 binding.llTime.visibility = View.VISIBLE
-
-                    binding.tpTimePicker.minute = note.timeMinute!!
-                    binding.tpTimePicker.hour = note.timeHour!!
-
-                    binding.tpDayPicker.updateDate(note.dateYear!!, note.dateMonth!!, note.dateDay!!)
-
             } else {
                 binding.llDay.visibility = View.INVISIBLE
                 binding.llTime.visibility = View.INVISIBLE
             }
+        } else {
+            //status create new note
+            //create a calendar
+            val calendar = Calendar.getInstance()
+            //create a temp note
+            val tempNote = Note(
+                title = "", description = "",
+                timeMinute = calendar.get(Calendar.MINUTE),
+                timeHour = calendar.get(Calendar.HOUR_OF_DAY),
+                dateDay = calendar.get(Calendar.DAY_OF_MONTH),
+                dateMonth = calendar.get(Calendar.MONTH),
+                dateYear = calendar.get(Calendar.YEAR),
+                tags = "",
+                isSettingAlarm = false
+            )
+            Log.d("check" , "tempNote: $tempNote");
+            binding.note = tempNote
         }
 
         binding.swAlert.setOnCheckedChangeListener(CompoundButton.OnCheckedChangeListener { buttonView, isChecked ->
             // do something, the isChecked will be
             // true if the switch is in the On position
-            if(isChecked)
-            {
+            if (isChecked) {
                 binding.llTime.visibility = View.VISIBLE
                 binding.llDay.visibility = View.VISIBLE
             } else {
@@ -101,7 +106,7 @@ class NoteActivity : AppCompatActivity() {
             var dateMonth: Int? = null
             var dateYear: Int? = null
             val tags: String? = binding.edtTag.text.toString()
-            val isSettingAlarm : Boolean = binding.swAlert.isChecked
+            val isSettingAlarm: Boolean = binding.swAlert.isChecked
 
             if (binding.swAlert.isChecked) {
                 timeMinute = binding.tpTimePicker.minute
@@ -112,12 +117,10 @@ class NoteActivity : AppCompatActivity() {
             }
 
             //create Tag
-            if(tags != null && oldTag != null && oldTag!!.compareTo(tags) != 0)
-            {
+            if (tags != null && oldTag != null && oldTag!!.compareTo(tags) != 0) {
                 Log.d("check", "running createTag")
-                createAndUpdateTag(tags.split(",") , oldTag!!.split(","))
-            } else if (tags != null && oldTag == null)
-            {
+                createAndUpdateTag(tags.split(","), oldTag!!.split(","))
+            } else if (tags != null && oldTag == null) {
                 createTag(tags.split(","))
             }
 
@@ -166,51 +169,59 @@ class NoteActivity : AppCompatActivity() {
     }
 
     private fun updateNotificationNote(tempNote: Note) {
-        Log.d("check" , "update notification")
-        Log.d("check" ,"note : ${tempNote.toString()}")
+        Log.d("check", "update notification")
+        Log.d("check", "note : ${tempNote.toString()}")
 
         //get time top notification
         val secondInMills = noteViewModel.caculTimeToNotification(tempNote)
 //        Log.d("check" , secondInMills.toString())
 
         //just notification for the note can notification
-        if(secondInMills >= 0)
-        {
+        if (secondInMills >= 0) {
             //create and send intent for broadcast
-            val intent = Intent(this , NotificationReceiver::class.java)
+            val intent = Intent(this, NotificationReceiver::class.java)
             intent.setAction(MConst.NOTIFICATION_CUSTOM)
-            intent.putExtra("title" , tempNote.title.toString())
-            intent.putExtra("description" , tempNote.description.toString())
-            intent.putExtra("id" , tempNote.id)
+            intent.putExtra("title", tempNote.title.toString())
+            intent.putExtra("description", tempNote.description.toString())
+            intent.putExtra("id", tempNote.id)
 
             //create pending intent
-            val pendingIntent = PendingIntent.getBroadcast(this ,tempNote.id , intent , PendingIntent.FLAG_UPDATE_CURRENT )
+            val pendingIntent = PendingIntent.getBroadcast(
+                this,
+                tempNote.id,
+                intent,
+                PendingIntent.FLAG_UPDATE_CURRENT
+            )
             // create alarm to notification in broadcast after time
             val am = getSystemService(ALARM_SERVICE) as AlarmManager
             //update the notification
-            am.set(AlarmManager.RTC_WAKEUP, System.currentTimeMillis() + secondInMills , pendingIntent)
+            am.set(
+                AlarmManager.RTC_WAKEUP,
+                System.currentTimeMillis() + secondInMills,
+                pendingIntent
+            )
         }
     }
 
     private fun checkToCancelOrUpdateNotificationNote(note: Note) {
-        Log.d("check" , "running check to cancel or update notification")
+        Log.d("check", "running check to cancel or update notification")
 
         //this note check in if is the note had from intent pass to this activity
         // not the note in parameter
-        if(!binding.swAlert.isChecked && oldStatusAlertNote)
-        {
-            Log.d("check" , "running cancel notification")
-            Log.d("check" ,"note : ${note.toString()}")
+        if (!binding.swAlert.isChecked && oldStatusAlertNote) {
+            Log.d("check", "running cancel notification")
+            Log.d("check", "note : ${note.toString()}")
 
             //create and send intent for broadcast
-            val intent = Intent(this , NotificationReceiver::class.java)
+            val intent = Intent(this, NotificationReceiver::class.java)
             intent.setAction(MConst.NOTIFICATION_CUSTOM)
-            intent.putExtra("title" , note.title.toString())
-            intent.putExtra("description" , note.description.toString())
-            intent.putExtra("id" , note.id)
+            intent.putExtra("title", note.title.toString())
+            intent.putExtra("description", note.description.toString())
+            intent.putExtra("id", note.id)
 
             //create pending intent
-            val pendingIntent = PendingIntent.getBroadcast(this , note.id , intent , PendingIntent.FLAG_UPDATE_CURRENT )
+            val pendingIntent =
+                PendingIntent.getBroadcast(this, note.id, intent, PendingIntent.FLAG_UPDATE_CURRENT)
             // create alarm to notification in broadcast after time
             val am = getSystemService(ALARM_SERVICE) as AlarmManager
             //delete the notification
@@ -223,8 +234,8 @@ class NoteActivity : AppCompatActivity() {
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        if (item.itemId == android.R.id.home){
-           finish()
+        if (item.itemId == android.R.id.home) {
+            finish()
         }
         return super.onOptionsItemSelected(item)
     }
