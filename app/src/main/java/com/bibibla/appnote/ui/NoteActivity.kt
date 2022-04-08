@@ -53,6 +53,8 @@ class NoteActivity : AppCompatActivity() {
             //status update note
             status = 1
             note = intent as Note
+            //set old tag to check for update
+            oldTag = note.tags
             binding.note = note
             if (note.isSettingAlarm) {
                 //update value for oldStatusAlertNote
@@ -74,12 +76,12 @@ class NoteActivity : AppCompatActivity() {
                 timeMinute = calendar.get(Calendar.MINUTE),
                 timeHour = calendar.get(Calendar.HOUR_OF_DAY),
                 dateDay = calendar.get(Calendar.DAY_OF_MONTH),
-                dateMonth = calendar.get(Calendar.MONTH),
+                dateMonth = calendar.get(Calendar.MONTH) + 1,
                 dateYear = calendar.get(Calendar.YEAR),
-                tags = "",
+                tags = null,
                 isSettingAlarm = false
             )
-            Log.d("check" , "tempNote: $tempNote");
+            Log.d("check", "tempNote: $tempNote");
             binding.note = tempNote
         }
 
@@ -117,11 +119,13 @@ class NoteActivity : AppCompatActivity() {
             }
 
             //create Tag
+
             if (tags != null && oldTag != null && oldTag!!.compareTo(tags) != 0) {
-                Log.d("check", "running createTag")
+                Log.d("check", "update tag when note had it ")
                 createAndUpdateTag(tags.split(","), oldTag!!.split(","))
             } else if (tags != null && oldTag == null) {
-                createTag(tags.split(","))
+                Log.d("check", "create tag when note not have any tag")
+                createTag(tags.split(",") )
             }
 
 
@@ -241,16 +245,16 @@ class NoteActivity : AppCompatActivity() {
     }
 
     private fun createTag(newTags: List<String>) {
-        tagViewModel.checkTagToAddFromList(newTags)
+        tagViewModel.checkTagToAddFromList(newTags , arrayListOf(""))
     }
 
     private fun createAndUpdateTag(newTags: List<String>, oldTags: List<String>) {
 
-        // xoa phan tu da xoa
+        // Kiểm tra toàn bộ tag cũ xem tag nào ko có so với tag mưới thì giảm nó đi
         tagViewModel.checkTagToDeleteOrUpdate(newTags, oldTags)
 
-        // tao tag moi
-        tagViewModel.checkTagToAddFromList(newTags)
+        // kiểm tra toàn bộ tag mới trong new tag xem tag nào mới so với data thì thêm vào
+        tagViewModel.checkTagToAddFromList(newTags, oldTags)
     }
 
 }

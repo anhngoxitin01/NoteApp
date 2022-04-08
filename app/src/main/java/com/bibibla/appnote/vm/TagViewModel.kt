@@ -75,7 +75,7 @@ class TagViewModel(private val app : Application): ViewModel() {
                     viewModelScope.launch(Dispatchers.IO) {
                         Log.d("check", "check tag in checkTagToDeleteOrUpdate tag: " + i.trim())
                         var tag = tagRepository.getTagsFromName(i.trim())
-                        Log.d("check", "check tag in checkTagToDeleteOrUpdate tag: " + tag.toString())
+                        Log.d("check", "check tag in checkTagToDeleteOrUpdate tag: $tag")
                         tag.amount -= 1
                         updateOrDeleteTag(tag)
                     }
@@ -84,27 +84,46 @@ class TagViewModel(private val app : Application): ViewModel() {
         }
     }
 
-    fun checkTagToAddFromList(newTags: List<String>){
+    fun checkTagToAddFromList(newTags: List<String>, oldTags: List<String>){
         for( i in newTags){
             // tao bien temp vi i val
-            var tempNameTag = i.trim()
+            val tempNameTag = i.trim()
             if (tempNameTag == "")
                 continue
-            Log.d("check", i)
-            //kiem tra tag da ton tai chua
-            //chua ton tai thi tao tag mới
-            viewModelScope.launch(Dispatchers.IO) {
-                var tag = getTagFromName(tempNameTag)
+            Log.d("check", "check the tag : $i to create or increase amount")
+            // Kiem tra tung phan tu cua new tag so vs old tag
+            // nếu trùng thì bỏ qua kiểm tra phàn tử tiếp theo trong tag mới
+            // nếu khác thì +amount hoặc tạo tag mới
+            var isSame = false
 
-                if (tag == null)
+            for(j in oldTags)
+            {
+                if (j == "")
+                    continue
+                if(i.trim().compareTo(j.trim()) == 0)
                 {
-                    Log.d("check", "Create Tag in checkTagToAddFromList")
-                    addTag(Tag(name = tempNameTag))
-                } else if(tag != null){
-                    tag.amount += 1
-                    updateOrDeleteTag(tag)
+                    isSame = true
+                    break;
                 }
             }
+
+            if(!isSame)
+            {
+                viewModelScope.launch(Dispatchers.IO) {
+                    var tag = getTagFromName(tempNameTag)
+                    Log.d("check" , "tag value to update: ${tag.toString()}")
+                    if (tag == null)
+                    {
+                        Log.d("check", "Create Tag in checkTagToAddFromList")
+                        addTag(Tag(name = tempNameTag))
+                    } else{
+//                            Log.d("check", "plus tag : $tag amount")
+                        tag.amount++
+                        updateOrDeleteTag(tag)
+                    }
+                }
+            }
+
         }
     }
 

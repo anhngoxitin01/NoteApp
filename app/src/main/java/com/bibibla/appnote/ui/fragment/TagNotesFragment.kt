@@ -103,19 +103,14 @@ class TagNotesFragment(application: Application, context: Context) : Fragment(),
 
         //create menu builder
         val menuBuilder = AlertDialog.Builder(parentAcContext)
-        val menuAdapter = ArrayAdapter<String>(parentAcContext , R.layout.select_dialog_item ,MConst.MAIN_MENU)
+        val menuAdapter = ArrayAdapter<String>(parentAcContext , R.layout.select_dialog_item ,
+            arrayListOf("delete"))
         menuBuilder.apply {
             setAdapter(menuAdapter, object : DialogInterface.OnClickListener{
                 override fun onClick(p0: DialogInterface?, p1: Int) {
                     when(p1){
-                        // Pin
-                        0 -> {
-                            note.isPin = if(note.isPin == 0) 1 else 0
-                            noteViewModel.updateNote(note)
-                            Log.d("check" , "running dialog Pin")
-                        }
                         //Delete
-                        1 -> {
+                        0 -> {
                             Log.d("check" , "running dialog delete")
                             val dialog = deleteBuilder.create()
                             dialog.show()
