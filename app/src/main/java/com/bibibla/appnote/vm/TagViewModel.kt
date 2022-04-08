@@ -33,6 +33,12 @@ class TagViewModel(private val app : Application): ViewModel() {
         }
     }
 
+    fun deleteDatabaseTag(){
+        viewModelScope.launch(Dispatchers.IO) {
+            tagRepository.deleteDatabaseTag()
+        }
+    }
+
     fun updateOrDeleteTag(tag : Tag){
         viewModelScope.launch(Dispatchers.IO) {
             if (tag.amount == 0)

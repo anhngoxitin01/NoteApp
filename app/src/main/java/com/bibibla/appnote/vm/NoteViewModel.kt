@@ -96,6 +96,12 @@ class NoteViewModel(private val app : Application): ViewModel() {
         }
     }
 
+    fun deleteDatabaseNote(){
+        viewModelScope.launch(Dispatchers.IO) {
+            noteRepository.deleteDatabaseNote()
+        }
+    }
+
     fun updateNote(note: Note){
         viewModelScope.launch(Dispatchers.IO) {
             noteRepository.updateNote(note)

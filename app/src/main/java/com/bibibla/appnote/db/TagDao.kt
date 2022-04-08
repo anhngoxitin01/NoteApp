@@ -15,6 +15,9 @@ interface TagDao {
     @Delete
     suspend fun deleteTag(tag: Tag)
 
+    @Query("DELETE FROM tag")
+    suspend fun deleteDatabaseTag()
+
     @Query("SELECT * FROM tag")
     fun getAllTags() : LiveData<List<Tag>>
 

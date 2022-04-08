@@ -17,6 +17,10 @@ class TagRepository (private val tagDao : TagDao){
         tagDao.deleteTag(tag)
     }
 
+    suspend fun deleteDatabaseTag(){
+        tagDao.deleteDatabaseTag()
+    }
+
     suspend fun getTagFromId(id: Int): Tag {
         return tagDao.getTagFromId(id)
     }
